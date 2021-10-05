@@ -1,3 +1,7 @@
+from keys import API
+
+import requests
+
 centros_vacina = {
     "PAVILHÃO DE EVENTOS DO PARQUE BARIGUI": "Alameda Ecológica Burle Marx2518 – Santo Inácio",
 
@@ -20,4 +24,20 @@ centros_vacina = {
     "US MORADIAS SANTA RITA": "Rua Adriana Zago Bueno, 743 – Tatuquara",
 }
 
-endereco = centros_vacina.values()
+endereco = list(centros_vacina.values())
+
+
+def fit():
+    # base url
+    url = "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&"
+
+    # get response
+    r = requests.get(url + "origins=" + endereco[0] +
+                     "&destinations=" + endereco[1] + "&key=" + API)
+
+    # return time as text and as seconds
+    time = r.json()["rows"][0]["elements"][0]["duration"]["text"]
+    seconds = r.json()["rows"][0]["elements"][0]["duration"]["value"]
+
+    # print the travel time
+    print("\nThe total travel time from home to work is", time)
