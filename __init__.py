@@ -1,7 +1,7 @@
 import pandas as pd
 import requests
 from keys import bingMapsKey
-
+import random
 
 centros_vacina = {
     "CEMEPAR, Estacionamento ": " Avenida Prefeito Lothário Meissner - Jardim Botânico",
@@ -55,7 +55,7 @@ def make_matrix():
     print(distancias)
 
 
-make_matrix()
+# make_matrix()
 
 distancias = [[0, 10.41, 11.413, 9.057, 9.84, 566.543, 10.047, 5.02, 12.817, 15.772, 20.296],
               [10.364, 0, 9.416, 4.098, 6.538, 571.001,
@@ -77,3 +77,39 @@ distancias = [[0, 10.41, 11.413, 9.057, 9.84, 566.543, 10.047, 5.02, 12.817, 15.
               [15.939, 27.021, 36.278, 18.166, 13.781,
                   583.421, 8.965, 17.508, 13.807, 0, 9.873],
               [20.337, 26.422, 35.679, 29.63, 18.828, 588.538, 17.683, 21.906, 13.208, 10.724, 0]]
+
+
+def alg_genetico():
+    init_pop()
+    # repet for all generations
+    fitness()
+    cross_over_genes()
+    mutate()
+
+    pass
+
+
+def init_pop():
+    populucao = []
+    for ind in n_populacao:
+        ind = []
+    pass
+
+
+def fitness():
+    pass
+
+
+def cross_over_genes():
+    pass
+
+
+def mutate():
+    pass
+
+
+n_populacao = 10
+
+n_geraçoes = 1000
+
+prop_mut = 0.01
