@@ -100,14 +100,14 @@ def init_pop():
 
     """
     populacao = []
-    for ind in n_populacao:  # passa por todos os individuos em um população
-        for i in n_individuo:
-            ind = []
-            gene = random.randint(0, n_individuo)
-            if gene not in ind:
-                ind.append(gene)
+    for _ in range(n_populacao):  # passa por todos os individuos em um população
+        ind = random.sample(range(1, n_populacao-1), n_populacao-2)
+        # TODO
+        # garantir que comeca e termina no 0 todas as listas
 
-    pass
+        populacao.append(ind)
+
+    return populacao
 
 
 def fitness():
@@ -129,3 +129,5 @@ n_geraçoes = 1000
 n_individuo = len(centros_vacina)
 
 prop_mut = 0.01
+
+print(init_pop())
