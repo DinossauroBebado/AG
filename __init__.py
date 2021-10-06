@@ -1,8 +1,11 @@
-"""from keys import API
-
+import pandas as pd
 import requests
+from keys import bingMapsKey
+
 
 centros_vacina = {
+    "CEMEPAR, Estacionamento ": " Avenida Prefeito Lothário Meissner - Jardim Botânico",
+
     "PAVILHÃO DE EVENTOS DO PARQUE BARIGUI": "Alameda Ecológica Burle Marx2518 – Santo Inácio",
 
     "US VILA DIANA": "Rua René Descartes, 537 – Abranches Boa Vista",
@@ -27,28 +30,51 @@ centros_vacina = {
 endereco = list(centros_vacina.values())
 
 
-# base url
-url = "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&"
+def get_distance(origem, destino):
+    # key bing maps api
+    bingMapsKey = "AsNvItM2ty9tkDhoC-J69ttib9XJkpXN5iWUEcSM874piuq2gEeaqJS7E0r0BU5S"
 
-# get response
-r = requests.get(url + "origins=" + endereco[0] +
-                 "&destinations=" + endereco[1] + "&key=" + API)
+    # abrir request ao servidor
+    route = "http://dev.virtualearth.net/REST/V1/Routes/Driving?wp.0=" + \
+        origem + "&wp.1=" + destino + "/&key=" + bingMapsKey
 
-# return time as text and as seconds
-time = r.json()["rows"][0]["elements"][0]["duration"]["text"]
-seconds = r.json()["rows"][0]["elements"][0]["duration"]["value"]
+    # coletar distancia (em KM) e tempo (em Minutos)
+    r = requests.get(url=route)
+    result = r.json()
+    distance = result["resourceSets"][0]["resources"][0]["travelDistance"]
 
-# print the travel time
-print("\nThe total travel time from home to work is", time)
-"""
-from keys import API
-import requests
+    return distance
 
-url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=40.6655101%2C-73.89188969999998&destinations=40.659569%2C-73.933783%7C40.729029%2C-73.851524%7C40.6860072%2C-73.6334271%7C40.598566%2C-73.7527626&key="+API
 
-payload = {}
-headers = {}
+def make_matrix():
+    distancias = []
+    for origem in endereco:
+        dist = []
+        for destino in endereco:
+            dist.append(get_distance(origem, destino))
+        distancias.append(dist)
+    print(distancias)
 
-response = requests.request("GET", url, headers=headers, data=payload)
 
-print(response.text)
+make_matrix()
+
+distancias = [[0, 10.41, 11.413, 9.057, 9.84, 566.543, 10.047, 5.02, 12.817, 15.772, 20.296],
+              [10.364, 0, 9.416, 4.098, 6.538, 571.001,
+                  15.427, 12.598, 14.915, 27.946, 25.388],
+              [12.163, 11.835, 0, 7.355, 15.988, 565.881,
+                  18.246, 15.055, 25.383, 38.414, 35.856],
+              [10.518, 5.045, 8.722, 0, 9.081, 570.965,
+                  15.581, 12.752, 17.104, 18.718, 27.577],
+              [9.906, 6.8, 15.362, 9.359, 0, 573.663,
+                  13.979, 12.14, 4.096, 12.752, 17.137],
+              [565.989, 573.727, 567.339, 572.374, 575.599, 0,
+               577.463, 575.21, 595.606, 586.097, 591.672],
+              [9.35, 16.36, 17.905, 15.007, 13.875,
+                  575.852, 0, 7.432, 22.229, 8.339, 18.295],
+              [4.778, 13.969, 14.972, 12.616, 13.399,
+                  567.478, 7.554, 0, 16.376, 19.331, 23.855],
+              [15.063, 15.747, 25.004, 18.955, 4.154,
+                  593.681, 14.648, 16.632, 0, 15.882, 13.324],
+              [15.939, 27.021, 36.278, 18.166, 13.781,
+                  583.421, 8.965, 17.508, 13.807, 0, 9.873],
+              [20.337, 26.422, 35.679, 29.63, 18.828, 588.538, 17.683, 21.906, 13.208, 10.724, 0]]
