@@ -95,6 +95,9 @@ def init_pop():
     é composto de um lista com os indices dos postos 
     [2,3,6,7,9,5]
 
+    endereco[2] = "Rua René Descartes, 537 – Abranches Boa Vista"
+
+
     """
     populacao = []
     for ind in n_populacao:  # passa por todos os individuos em um população
