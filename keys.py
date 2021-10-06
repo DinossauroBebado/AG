@@ -1,3 +1,0 @@
-
-
-API = "AIzaSyDadvyQRPEY4WJhEKHKrNGHopV9SAdLVho"
