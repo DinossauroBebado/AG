@@ -32,7 +32,6 @@ endereco = list(centros_vacina.values())
 
 def get_distance(origem, destino):
     # key bing maps api
-    bingMapsKey = "AsNvItM2ty9tkDhoC-J69ttib9XJkpXN5iWUEcSM874piuq2gEeaqJS7E0r0BU5S"
 
     # abrir request ao servidor
     route = "http://dev.virtualearth.net/REST/V1/Routes/Driving?wp.0=" + \
