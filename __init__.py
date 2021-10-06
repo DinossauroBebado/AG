@@ -1,4 +1,4 @@
-from keys import API
+"""from keys import API
 
 import requests
 
@@ -27,17 +27,28 @@ centros_vacina = {
 endereco = list(centros_vacina.values())
 
 
-def fit():
-    # base url
-    url = "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&"
+# base url
+url = "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&"
 
-    # get response
-    r = requests.get(url + "origins=" + endereco[0] +
-                     "&destinations=" + endereco[1] + "&key=" + API)
+# get response
+r = requests.get(url + "origins=" + endereco[0] +
+                 "&destinations=" + endereco[1] + "&key=" + API)
 
-    # return time as text and as seconds
-    time = r.json()["rows"][0]["elements"][0]["duration"]["text"]
-    seconds = r.json()["rows"][0]["elements"][0]["duration"]["value"]
+# return time as text and as seconds
+time = r.json()["rows"][0]["elements"][0]["duration"]["text"]
+seconds = r.json()["rows"][0]["elements"][0]["duration"]["value"]
 
-    # print the travel time
-    print("\nThe total travel time from home to work is", time)
+# print the travel time
+print("\nThe total travel time from home to work is", time)
+"""
+from keys import API
+import requests
+
+url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=40.6655101%2C-73.89188969999998&destinations=40.659569%2C-73.933783%7C40.729029%2C-73.851524%7C40.6860072%2C-73.6334271%7C40.598566%2C-73.7527626&key="+API
+
+payload = {}
+headers = {}
+
+response = requests.request("GET", url, headers=headers, data=payload)
+
+print(response.text)
