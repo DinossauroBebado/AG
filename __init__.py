@@ -90,9 +90,20 @@ def alg_genetico():
 
 
 def init_pop():
-    populucao = []
-    for ind in n_populacao:
-        ind = []
+    """
+    Cria uma população com individuos gerados aleatoriamente cada gene 
+    é composto de um lista com os indices dos postos 
+    [2,3,6,7,9,5]
+
+    """
+    populacao = []
+    for ind in n_populacao:  # passa por todos os individuos em um população
+        for i in n_individuo:
+            ind = []
+            gene = random.randint(0, n_individuo)
+            if gene not in ind:
+                ind.append(gene)
+
     pass
 
 
@@ -111,5 +122,7 @@ def mutate():
 n_populacao = 10
 
 n_geraçoes = 1000
+
+n_individuo = len(centros_vacina)
 
 prop_mut = 0.01
