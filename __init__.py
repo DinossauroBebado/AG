@@ -3,10 +3,11 @@ import requests
 from keys import bingMapsKey
 import random
 
+
 centros_vacina = {
     "CEMEPAR, Estacionamento ": " Avenida Prefeito Lothário Meissner - Jardim Botânico",
 
-    "PAVILHÃO DE EVENTOS DO PARQUE BARIGUI": "Alameda Ecológica Burle Marx2518 – Santo Inácio",
+    "PAVILHÃO DE EVENTOS DO PARQUE BARIGUI": "Alameda Ecológica Burle Marx ,2518 – Santo Inácio",
 
     "US VILA DIANA": "Rua René Descartes, 537 – Abranches Boa Vista",
 
@@ -80,9 +81,9 @@ distancias = [[0, 10.41, 11.413, 9.057, 9.84, 566.543, 10.047, 5.02, 12.817, 15.
 
 
 def alg_genetico():
-    init_pop()
+    populucao = init_pop()
     # repet for all generations
-    fitness()
+    fitness(populucao)
     cross_over_genes()
     mutate()
 
@@ -97,12 +98,13 @@ def init_pop():
 
     endereco[2] = "Rua René Descartes, 537 – Abranches Boa Vista"
 
-
     """
     populacao = []
     for _ in range(n_populacao):  # passa por todos os individuos em um população
         individuo = random.sample(range(1, n_populacao-1), n_populacao-2)
+        # começo é fixo
         individuo.append(0)
+        # final é fixo
         individuo.insert(0, 0)
 
         populacao.append(individuo)
@@ -110,7 +112,19 @@ def init_pop():
     return populacao
 
 
-def fitness():
+def fitness(população, distancia):
+    """
+        Função para verificar quão bom é o indivio em relação a solução ótima
+        somando as distancias entre as cidades 
+        busca distancia = 0
+
+    """
+
+    for indivio in população:
+        sum_distancia = 0
+        for genes in indivio[:-1]:
+            sum_distancia += distancias[genes][genes+1]
+
     pass
 
 
