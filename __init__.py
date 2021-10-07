@@ -86,7 +86,7 @@ def alg_genetico():
     for geração in range(n_geraçoes):
         populacao.geracao = geração
         populacao.fitness(distancias)
-        #fitness(populacao, distancias)
+        select_parents(populacao)
         cross_over_genes()
         mutate()
 
@@ -115,8 +115,38 @@ def init_pop():
     return populacao
 
 
-def cross_over_genes():
+def select_parents(população):
+    """
+    Seleciona na população os pais para cruzar 
+    """
+    população.populacao = população.populacao.sort()
     pass
+
+
+def cross_over_genes(pai1, pai2):
+
+    index = random.randint(1, n_individuo)  # seleciona de forma aleatoria
+    gene = (pai1[:index] + pai2[index:])
+
+    # tirar numeros repetidos
+    if len(gene) == len(set(gene)):
+        return gene
+    # lista com todos os numeros possiveis
+    loc = list(range(1, n_individuo-1))
+
+    j = 0  # controle de numeros repetidos
+
+    # lista com numeros repetidos
+    hold = [l for l in loc if l not in gene[1:-1]]
+
+    for g in gene[1:-1]:
+        if gene[1:-1].count(g) != 1:
+            i = (gene[1:-1].index(g) + 1)
+            gene[i] = hold[j]  # tira um numero repetido e substitui
+            # por um q nao estava presente
+            j += 1
+
+    return gene
 
 
 def mutate():
@@ -129,4 +159,8 @@ if __name__ == "__main__":
     n_individuo = len(centros_vacina)
     prop_mut = 0.01
 
-    alg_genetico()
+    # alg_genetico()
+
+    pai1 = [0, 5, 7, 4, 1, 2, 3, 6, 8, 0]
+    pai2 = [0, 7, 5, 3, 8, 6, 1, 2, 4, 0]
+    print(cross_over_genes(pai1, pai2))

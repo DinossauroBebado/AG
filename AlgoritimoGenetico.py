@@ -6,7 +6,8 @@ class Individuo:
     def __repr__(self) -> str:
         return f"\nGenes :{self.genes}, Fit: {self.distancia}"
 
-    def calc_dist(self, distancia) -> int:
+    def sum_dist(self, distancia) -> int:
+        "Soma as distancia entre as cidades"
         # reseta para não haver interferencia entre gerações
         self.distancia = 0
         for i, gene in enumerate(self.genes[:-1]):
@@ -30,6 +31,6 @@ class Populacao:
 
         """
         for indivio in self.populacao:
-            indivio.calc_dist(distancia)
+            indivio.sum_dist(distancia)
 
         print(self)
