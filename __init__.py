@@ -101,11 +101,11 @@ def init_pop():
     """
     populacao = []
     for _ in range(n_populacao):  # passa por todos os individuos em um população
-        ind = random.sample(range(1, n_populacao-1), n_populacao-2)
-        # TODO
-        # garantir que comeca e termina no 0 todas as listas
+        individuo = random.sample(range(1, n_populacao-1), n_populacao-2)
+        individuo.append(0)
+        individuo.insert(0, 0)
 
-        populacao.append(ind)
+        populacao.append(individuo)
 
     return populacao
 
