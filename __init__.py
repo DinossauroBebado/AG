@@ -81,9 +81,10 @@ distancias = [[0, 10.41, 11.413, 9.057, 9.84, 566.543, 10.047, 5.02, 12.817, 15.
 
 
 def alg_genetico():
-    populucao = init_pop()
+    populacao = init_pop()
     # repet for all generations
-    fitness(populucao)
+    print(populacao)
+    fitness(populacao, distancias)
     cross_over_genes()
     mutate()
 
@@ -123,7 +124,9 @@ def fitness(população, distancia):
     for indivio in população:
         sum_distancia = 0
         for genes in indivio[:-1]:
-            sum_distancia += distancias[genes][genes+1]
+            sum_distancia += distancias[genes+1][genes]
+        # pq caralhos retorna a msm distancia
+        print(sum_distancia)
 
     pass
 
@@ -144,4 +147,4 @@ n_individuo = len(centros_vacina)
 
 prop_mut = 0.01
 
-print(init_pop())
+alg_genetico()
