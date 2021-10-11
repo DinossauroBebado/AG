@@ -4,7 +4,27 @@ from keys import bingMapsKey
 import random
 
 from AlgoritimoGenetico import Individuo, Populacao
+distancias = [[0, 10.41, 11.413, 9.057, 9.84, 7.427, 10.047, 5.02, 12.817, 15.772, 20.294],
+              [10.364, 0, 9.416, 4.098, 6.538, 10.531,
+               15.427, 12.598, 14.915, 27.946, 25.386],
 
+              [12.163, 11.835, 0, 7.355, 15.988, 16.604,
+               18.246, 15.055, 25.383, 38.414, 35.854],
+              [10.518, 5.045, 8.722, 0, 9.081, 10.092,
+               15.581, 12.752, 17.104, 18.718, 27.575],
+              [9.906, 6.8, 15.362, 9.359, 0, 7.108,
+               13.979, 12.14, 4.096, 12.752, 17.135],
+              [8.081, 10.079, 18.939, 11.311, 6.926, 0,
+               7.666, 9.65, 7.513, 10.176, 14.698],
+              [9.35, 16.36, 17.905, 15.007, 13.875,
+               7.933, 0, 7.432, 22.229, 8.339, 18.293],
+              [4.778, 13.969, 14.972, 12.616, 13.399,
+               10.986, 7.554, 0, 16.376, 19.331, 23.853],
+              [15.063, 15.747, 25.004, 18.955, 4.154,
+               7.777, 14.648, 16.632, 0, 15.882, 13.322],
+              [15.939, 27.021, 36.278, 18.166, 13.781,
+               10.116, 8.965, 17.508, 13.807, 0, 9.871],
+              [20.339, 26.424, 35.681, 29.632, 18.83, 14.516, 17.685, 21.908, 13.21, 10.726, 0]]
 
 centros_vacina = {
     "CEMEPAR, Estacionamento ": " Avenida Prefeito Lothário Meissner - Jardim Botânico",
@@ -63,7 +83,8 @@ def make_matrix():
 def alg_genetico():
     distancias = [[0, 10.41, 11.413, 9.057, 9.84, 7.427, 10.047, 5.02, 12.817, 15.772, 20.294],
                   [10.364, 0, 9.416, 4.098, 6.538, 10.531,
-                  15.427, 12.598, 14.915, 27.946, 25.386],
+                      15.427, 12.598, 14.915, 27.946, 25.386],
+
                   [12.163, 11.835, 0, 7.355, 15.988, 16.604,
                   18.246, 15.055, 25.383, 38.414, 35.854],
                   [10.518, 5.045, 8.722, 0, 9.081, 10.092,
@@ -81,16 +102,25 @@ def alg_genetico():
                   [15.939, 27.021, 36.278, 18.166, 13.781,
                    10.116, 8.965, 17.508, 13.807, 0, 9.871],
                   [20.339, 26.424, 35.681, 29.632, 18.83, 14.516, 17.685, 21.908, 13.21, 10.726, 0]]
+
     populacao = Populacao(init_pop())
+    populacao.geracao = 0
+
+    populacao.fitness(distancias)
+    print(populacao)
     # repeat for all generations
-    for geração in range(n_geraçoes):
+    for geração in range(1, n_geraçoes):
+
         populacao.geracao = geração
         populacao.fitness(distancias)
-        select_parents(populacao)
-        cross_over_genes()
-        mutate()
 
-    pass
+        populacao.populacao.sort()
+        next_generation = select_parents(populacao)
+        populacao.populacao = next_generation
+        populacao.mutate(prop_mut, n_individuo)
+
+    populacao.fitness(distancias)
+    print(populacao)
 
 
 def init_pop():
@@ -119,8 +149,19 @@ def select_parents(população):
     """
     Seleciona na população os pais para cruzar 
     """
-    população.populacao = população.populacao.sort()
-    pass
+
+    next_generation = []
+    for pares in população.populacao:
+        filho = cross_over_genes(
+            população.populacao[random.randint(1, n_individuo-5)].genes,
+            população.populacao[random.randint(1, n_individuo-5)].genes)
+
+        next_generation.append(Individuo(filho))
+    return next_generation
+    # selecionar 10 pares de genes
+    # crossover genes
+    # cria uma nova população
+    # retorna a nova população
 
 
 def cross_over_genes(pai1, pai2):
@@ -149,18 +190,11 @@ def cross_over_genes(pai1, pai2):
     return gene
 
 
-def mutate():
-    pass
-
-
 if __name__ == "__main__":
     n_populacao = 10
-    n_geraçoes = 5
+    n_geraçoes = 100000
     n_individuo = len(centros_vacina)
-    prop_mut = 0.01
+    prop_mut = 0.1
+    parent_selected = 8
 
-    # alg_genetico()
-
-    pai1 = [0, 5, 7, 4, 1, 2, 3, 6, 8, 0]
-    pai2 = [0, 7, 5, 3, 8, 6, 1, 2, 4, 0]
-    print(cross_over_genes(pai1, pai2))
+    alg_genetico()
