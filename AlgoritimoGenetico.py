@@ -17,7 +17,7 @@ class Individuo:
         # reseta para não haver interferencia entre gerações
         self.distancia = 0
         for i, gene in enumerate(self.genes[:-1]):
-            self.distancia += distancia[gene][i+1]
+            self.distancia += distancia[gene][i]
 
     def mutacao(self, prop_mut, n_individuo):
         if random.random() < prop_mut:
@@ -56,4 +56,4 @@ class Populacao:
 
         """
         for individos in self.populacao:
-            individos.mutacao(prop_mut, n_individuo)
+            individos.mutacao(prop_mut, (n_individuo))
